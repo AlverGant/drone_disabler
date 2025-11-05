@@ -1,72 +1,72 @@
 # Drone Disabler
 
-Ferramenta de pesquisa em segurança para testes de vulnerabilidade em drones Parrot Bebop.
+Security research tool for testing vulnerabilities in Parrot Bebop drones.
 
-## ⚠️ Aviso Legal
+## ⚠️ Legal Disclaimer
 
-**IMPORTANTE:** Esta ferramenta foi desenvolvida **EXCLUSIVAMENTE** para fins educacionais e de pesquisa em segurança autorizada. O uso de técnicas de deautenticação WiFi (jamming) é **ILEGAL** na maioria das jurisdições sem autorização explícita.
+**IMPORTANT:** This tool was developed **EXCLUSIVELY** for educational purposes and authorized security research. The use of WiFi deauthentication (jamming) techniques is **ILLEGAL** in most jurisdictions without explicit authorization.
 
-- ✅ Uso permitido: Testes de penetração autorizados, pesquisa de segurança, competições CTF, ambientes controlados
-- ❌ Uso proibido: Interferência não autorizada em redes, interrupção de serviços, ataques maliciosos
+- ✅ Permitted use: Authorized penetration testing, security research, CTF competitions, controlled environments
+- ❌ Prohibited use: Unauthorized network interference, service disruption, malicious attacks
 
-**O autor não se responsabiliza pelo uso indevido desta ferramenta. Use por sua própria conta e risco.**
+**The author is not responsible for misuse of this tool. Use at your own risk.**
 
-## 📋 Descrição
+## 📋 Description
 
-O Drone Disabler é uma ferramenta de teste de segurança que demonstra vulnerabilidades em drones Parrot Bebop através de:
+Drone Disabler is a security testing tool that demonstrates vulnerabilities in Parrot Bebop drones through:
 
-1. **Escaneamento de Redes WiFi**: Identifica drones Parrot através de prefixos MAC conhecidos
-2. **Ataque de Deautenticação**: Desconecta o drone do controlador usando frames de deautenticação WiFi
-3. **Comando de Pouso Forçado**: Conecta-se ao drone e envia comando de pouso automático
+1. **WiFi Network Scanning**: Identifies Parrot drones through known MAC prefixes
+2. **Deauthentication Attack**: Disconnects the drone from the controller using WiFi deauth frames
+3. **Forced Landing Command**: Connects to the drone and sends automatic landing command
 
-### Como Funciona
+### How It Works
 
 ```
 ┌─────────────────────┐
-│ Escanear WiFi       │
+│ Scan WiFi           │
 │ (wlan0)             │
 └──────────┬──────────┘
            │
            ▼
 ┌─────────────────────┐
-│ Detectar Drone      │
-│ Parrot (MAC)        │
+│ Detect Parrot       │
+│ Drone (MAC)         │
 └──────────┬──────────┘
            │
            ▼
 ┌─────────────────────┐
-│ Criar Interface     │
-│ Monitor (mon0)      │
+│ Create Monitor      │
+│ Interface (mon0)    │
 └──────────┬──────────┘
            │
            ▼
 ┌─────────────────────┐
-│ Ataque Deauth       │
+│ Deauth Attack       │
 │ (aireplay-ng)       │
 └──────────┬──────────┘
            │
            ▼
 ┌─────────────────────┐
-│ Conectar ao Drone   │
+│ Connect to Drone    │
 │ via WiFi            │
 └──────────┬──────────┘
            │
            ▼
 ┌─────────────────────┐
-│ Enviar Comando      │
-│ de Pouso            │
+│ Send Landing        │
+│ Command             │
 └─────────────────────┘
 ```
 
-## 🔧 Requisitos
+## 🔧 Requirements
 
-### Sistema Operacional
-- **Linux** (testado em Debian/Ubuntu)
-- **Privilégios root** (necessário para operações de rede)
+### Operating System
+- **Linux** (tested on Debian/Ubuntu)
+- **Root privileges** (required for network operations)
 
 ### Hardware
-- Adaptador WiFi compatível com modo monitor
-- Interface `phy1` disponível para modo monitor
+- WiFi adapter compatible with monitor mode
+- `phy1` interface available for monitor mode
 
 ### Software
 - Python 2.7
@@ -74,37 +74,37 @@ O Drone Disabler é uma ferramenta de teste de segurança que demonstra vulnerab
 - iw / iwconfig
 - dhclient
 
-## 📦 Instalação
+## 📦 Installation
 
-### Método 1: Script Automático
+### Method 1: Automatic Script
 
-Execute o script de instalação incluído:
+Run the included installation script:
 
 ```bash
 chmod +x drone_disabler_install.sh
 sudo ./drone_disabler_install.sh
 ```
 
-O script irá instalar automaticamente:
-- aircrack-ng (suite de testes WiFi)
-- git, mercurial (controle de versão)
-- vim (editor de texto)
-- libsdl1.2-dev (bibliotecas SDL)
-- python-pygame (biblioteca gráfica Python)
-- katarina (SDK Parrot Bebop)
-- python-iwlist (wrapper de escaneamento WiFi)
+The script will automatically install:
+- aircrack-ng (WiFi testing suite)
+- git, mercurial (version control)
+- vim (text editor)
+- libsdl1.2-dev (SDL libraries)
+- python-pygame (Python graphics library)
+- katarina (Parrot Bebop SDK)
+- python-iwlist (WiFi scanning wrapper)
 
-### Método 2: Instalação Manual
+### Method 2: Manual Installation
 
 ```bash
-# Atualizar sistema
+# Update system
 sudo apt-get update
 sudo apt-get upgrade -y
 
-# Instalar dependências
+# Install dependencies
 sudo apt-get install -y aircrack-ng git vim mercurial libsdl1.2-dev python-pygame
 
-# Clonar dependências Python
+# Clone Python dependencies
 cd /tmp
 hg clone https://bitbucket.org/robotika/katarina
 cd katarina
@@ -116,112 +116,112 @@ cd python-iwlist
 sudo python setup.py install
 ```
 
-## 🚀 Uso
+## 🚀 Usage
 
-### Pré-requisitos
-1. Certifique-se de que possui um adaptador WiFi compatível
-2. Execute como root
-3. Verifique que as interfaces `wlan0` e `phy1` estão disponíveis
+### Prerequisites
+1. Ensure you have a compatible WiFi adapter
+2. Run as root
+3. Verify that `wlan0` and `phy1` interfaces are available
 
-### Executar
+### Execute
 
 ```bash
 sudo python drone_disabler.py
 ```
 
-### Comportamento Esperado
+### Expected Behavior
 
 ```
-Escaneando redes WiFi...
-Escaneando redes WiFi...
-Drone Parrot detectado!
+Scanning WiFi networks...
+Scanning WiFi networks...
+Parrot drone detected!
   ESSID: Bebop2-XXXXXX
   MAC: 90:03:B7:XX:XX:XX
-  Canal: 6
+  Channel: 6
 
-Criando interface monitor...
-Enviando ataque de deautenticação...
-Conectando ao drone...
-Enviando comando de pouso...
-Drone desabilitado com sucesso!
+Creating monitor interface...
+Sending deauthentication attack...
+Connecting to drone...
+Sending landing command...
+Drone successfully disabled!
 ```
 
-## 🎯 Drones Suportados
+## 🎯 Supported Drones
 
-A ferramenta detecta drones Parrot através dos seguintes prefixos MAC:
+The tool detects Parrot drones through the following MAC prefixes:
 
-| Prefixo MAC | Modelo |
-|-------------|---------|
-| 90:03:B7    | Parrot Bebop/Bebop 2 |
-| A0:14:3D    | Parrot AR.Drone |
-| 00:12:1C    | Parrot (antigos) |
-| 00:26:7E    | Parrot (antigos) |
-| 90:3A:E6    | Parrot Disco/Mambo |
+| MAC Prefix | Model |
+|------------|-------|
+| 90:03:B7   | Parrot Bebop/Bebop 2 |
+| A0:14:3D   | Parrot AR.Drone |
+| 00:12:1C   | Parrot (legacy) |
+| 00:26:7E   | Parrot (legacy) |
+| 90:3A:E6   | Parrot Disco/Mambo |
 
-## 🛠️ Solução de Problemas
+## 🛠️ Troubleshooting
 
-### Erro: "No wireless networks found"
-- Verifique se `wlan0` está ativa: `ifconfig wlan0`
-- Certifique-se de que o adaptador WiFi está conectado
+### Error: "No wireless networks found"
+- Check if `wlan0` is active: `ifconfig wlan0`
+- Ensure the WiFi adapter is connected
 
-### Erro: "Permission denied"
-- Execute o script como root: `sudo python drone_disabler.py`
+### Error: "Permission denied"
+- Run the script as root: `sudo python drone_disabler.py`
 
-### Erro: "mon0: No such device"
-- Verifique se `phy1` existe: `iw dev`
-- Certifique-se de que seu adaptador suporta modo monitor
+### Error: "mon0: No such device"
+- Check if `phy1` exists: `iw dev`
+- Ensure your adapter supports monitor mode
 
-### Erro ao instalar dependências
-- Use Python 2.7 (Python 3 não é compatível)
-- Instale pip2: `sudo apt-get install python-pip`
+### Error installing dependencies
+- Use Python 2.7 (Python 3 is not compatible)
+- Install pip2: `sudo apt-get install python-pip`
 
-## 📚 Estrutura do Projeto
+## 📚 Project Structure
 
 ```
 drone_disabler/
-├── README.md                    # Este arquivo
-├── drone_disabler.py            # Script principal
-└── drone_disabler_install.sh    # Script de instalação
+├── README.md                    # This file
+├── drone_disabler.py            # Main script
+└── drone_disabler_install.sh    # Installation script
 ```
 
-## 🔒 Considerações de Segurança
+## 🔒 Security Considerations
 
-### Aspectos Éticos
-- Esta ferramenta demonstra vulnerabilidades conhecidas em drones comerciais
-- Use apenas em ambientes controlados e com autorização
-- Respeite as leis locais sobre interferência em sinais de rádio
+### Ethical Aspects
+- This tool demonstrates known vulnerabilities in commercial drones
+- Use only in controlled environments and with authorization
+- Respect local laws regarding radio signal interference
 
-### Vulnerabilidades Demonstradas
-1. **Deautenticação WiFi**: Drones Parrot usam WiFi sem proteção adequada contra deauth
-2. **Acesso Não Autenticado**: Conexão ao drone sem credenciais
-3. **Falta de Criptografia**: Comandos enviados em texto claro
+### Demonstrated Vulnerabilities
+1. **WiFi Deauthentication**: Parrot drones use WiFi without adequate deauth protection
+2. **Unauthenticated Access**: Connection to drone without credentials
+3. **Lack of Encryption**: Commands sent in plain text
 
-### Contramedidas
-- Use drones com protocolos mais seguros (ex: OcuSync, Lightbridge)
-- Implemente autenticação forte
-- Use frequências menos vulneráveis (5.8GHz com proteção)
+### Countermeasures
+- Use drones with more secure protocols (e.g., OcuSync, Lightbridge)
+- Implement strong authentication
+- Use less vulnerable frequencies (5.8GHz with protection)
 
-## 📖 Referências
+## 📖 References
 
 - [Aircrack-ng Documentation](https://www.aircrack-ng.org/)
 - [Parrot Bebop SDK](https://bitbucket.org/robotika/katarina)
 - [WiFi Deauthentication Attack](https://en.wikipedia.org/wiki/Wi-Fi_deauthentication_attack)
 
-## 📝 Licença
+## 📝 License
 
-Este projeto é fornecido "como está", sem garantias de qualquer tipo. Use por sua própria conta e risco.
+This project is provided "as is", without warranties of any kind. Use at your own risk.
 
-## 🤝 Contribuições
+## 🤝 Contributing
 
-Contribuições são bem-vindas! Antes de contribuir:
-1. Certifique-se de que suas mudanças são éticas
-2. Teste em ambiente controlado
-3. Documente suas alterações
+Contributions are welcome! Before contributing:
+1. Ensure your changes are ethical
+2. Test in a controlled environment
+3. Document your changes
 
-## ⚡ Aviso Final
+## ⚡ Final Warning
 
-**Esta ferramenta foi criada para demonstrar vulnerabilidades de segurança em drones comerciais com o objetivo de melhorar a segurança de sistemas autônomos. Qualquer uso malicioso ou ilegal é de responsabilidade exclusiva do usuário.**
+**This tool was created to demonstrate security vulnerabilities in commercial drones with the goal of improving the security of autonomous systems. Any malicious or illegal use is the sole responsibility of the user.**
 
 ---
 
-**Desenvolvido para fins educacionais e de pesquisa em segurança** 🛡️
+**Developed for educational and security research purposes** 🛡️
